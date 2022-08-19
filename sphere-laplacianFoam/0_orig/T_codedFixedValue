@@ -1,0 +1,84 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.x                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 200;
+
+boundaryField
+{
+
+    xmin
+    {
+//      type            fixedValue;
+        type            codedFixedValue;
+        value           uniform 100;
+        name            temperatureProfile;
+
+        code
+        #{
+
+        const fvPatch& boundaryPatch = patch(); 
+        const vectorField& Cf = boundaryPatch.Cf(); 
+//      vectorField& field = *this; // eg velocity
+        scalarField& field = *this;
+
+        field = patchInternalField();
+
+        scalar mid = 200;
+        scalar fac = 5.0;
+
+        forAll(Cf,faceI)
+        {
+          const scalar ycc = Cf[faceI].y();
+          field[faceI] = mid + fac*ycc;
+        }
+
+        #};        
+
+
+    }
+
+    xmax
+    {
+        type            fixedValue;
+        value           uniform 300;
+    }
+    ymin
+    {
+        type            zeroGradient;
+    }
+    ymax
+    {
+        type            zeroGradient;
+    }
+    zmin
+    {
+        type            zeroGradient;
+    }
+    zmax
+    {
+        type            zeroGradient;
+    }
+    sphere
+    {
+        type            fixedValue;
+        value           uniform 200;
+    }
+
+}
+
+// ************************************************************************* //
