@@ -1,0 +1,15 @@
+#
+# use source filename
+#
+sed '/    format    /i\    version     1.0;' controlDict > controlDict2
+sed '/    format    /i\    version     1.0;' blockMeshDict > blockMeshDict2
+sed '/    format    /i\    version     1.0;' surfaceFeaturesDict > surfaceFeaturesDict2
+sed '/    format    /i\    version     1.0;' fvSchemes > fvSchemes2
+sed '/    format    /i\    version     1.0;' fvSolution > fvSolution2
+sed '/    format    /i\    version     1.0;' snappyHexMeshDict > snappyHexMeshDict2
+mv controlDict2 controlDict
+mv blockMeshDict2 blockMeshDict
+mv surfaceFeaturesDict2 surfaceFeaturesDict
+mv fvSchemes2 fvSchemes
+mv fvSolution2 fvSolution
+mv snappyHexMeshDict2 snappyHexMeshDic
