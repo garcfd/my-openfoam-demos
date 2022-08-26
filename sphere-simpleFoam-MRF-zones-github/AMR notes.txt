@@ -1,0 +1,38 @@
+MRF case setup
+==============
+requires:
+
+2 mesh directories
+topoSetDict (to create inner mesh zone0)
+createPatchDict (to create cyclic boundaries)
+MRFProperties (to specify the rotation)
+
+start with sphere and blades geometry - the sphere defined the cyclic interface
+
+generate 2 seperate case directories - 1 for inner mesh, and 1 for outer mesh
+
+using snappyHexMesh 
+- move point location for inner mesh with sphere_inner surface names
+- move point location for outer mesh with sphere_outer surface names
+(move dir 2 to 0)
+
+for the inner mesh use topoSetDict to create mesh "zone0" for entire inner mesh
+
+then go above both case directories and use mergeMeshes <dir1> <dir2>
+
+this creates a new "1" dir in the <dir1>, so then move this "1" to "0"
+
+use paraview with "read zones" toggled ON, to check the inner zone is seperate.
+
+use createPatch to make the cyclic boundaries for sphere_inner and sphere_outer
+
+check that its listed as cyclicAMI in the boundary file 
+
+update the boundary files p U k omega nut with cyclicAMI
+
+create or modify the MRFProperties file in "constant" dir to set omega (speed)
+
+run in simpleFoam as normal
+
+
+

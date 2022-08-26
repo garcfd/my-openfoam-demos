@@ -1,0 +1,1 @@
+time simpleFoam.exe | tee output.txt

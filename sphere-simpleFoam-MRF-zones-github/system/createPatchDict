@@ -1,0 +1,53 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     3.1                                |
+|   \\  /    A nd           | Web:         http://www.extend-project.de       |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      createPatchDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+pointSync false;
+
+patches
+(
+    {
+        name c1;
+        patchInfo
+        {
+            type cyclic;
+            neighbourPatch c2;
+//          transform noOrdering;
+            transform translational;
+            separationVector (0 0 0);
+            matchTolerance  0.001;
+        }
+        constructFrom patches;
+        patches (sphere_inner);
+    }
+
+    {
+        name c2;
+        patchInfo
+        {
+            type cyclic;
+            neighbourPatch c1;
+//          transform noOrdering;
+            transform translational;
+            separationVector (0 0 0);
+            matchTolerance  0.001;
+        }
+        constructFrom patches;
+        patches (sphere_outer);
+    }
+
+);
+
+// ************************************************************************* //
